@@ -4,9 +4,9 @@ var root,
 root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
 root.Route = (function() {
-  function Route(handlers, path) {
+  function Route(handlers, pattern) {
     this.handlers = handlers;
-    this.path = path;
+    this.pattern = pattern;
   }
 
   Route.prototype.to = function(callback) {
@@ -27,26 +27,27 @@ root.Route = (function() {
     }
   };
 
-  Route.prototype.isMatching = function(path) {
-    return path.match(this.parsedRoute()) !== null;
+  Route.prototype.matches = function(path) {
+    return path.match(this.regexp()) !== null;
   };
 
-  Route.prototype.parsedRoute = function() {
+  Route.prototype.regexp = function() {
     var segment, segments, _i, _len, _ref;
     segments = [];
-    _ref = this.path.split('/');
+    _ref = this.pattern.split('/');
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       segment = _ref[_i];
       segments.push(segment.replace(/\:.+/, '.+'));
     }
+    segments[segments.length - 1] = segments[segments.length - 1] + "$";
     return segments.join('\\/');
   };
 
-  Route.prototype.getParams = function(path) {
+  Route.prototype.params = function(path) {
     var i, params, segment, segments, _i, _len, _ref;
     params = {};
     segments = path.split('/');
-    _ref = this.path.split('/');
+    _ref = this.pattern.split('/');
     for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
       segment = _ref[i];
       if (segment.match(/^:.+/)) {
@@ -85,7 +86,7 @@ root.Router = (function() {
     return route;
   };
 
-  Router.prototype.getLocation = function() {
+  Router.prototype.location = function() {
     return window.location.pathname;
   };
 
@@ -94,9 +95,8 @@ root.Router = (function() {
     _ref = this.routes;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       route = _ref[_i];
-      if (route.isMatching(this.getLocation())) {
-        route.callback(route.getParams(this.getLocation()));
-        return;
+      if (route.matches(this.location())) {
+        return route.callback(route.params(this.location()));
       }
     }
   };

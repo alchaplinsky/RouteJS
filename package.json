@@ -5,7 +5,7 @@
   "author": "Alex Chaplinsky",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/alchapone/router.js.git"
   },
   "license": "MIT",
   "dependencies": {},
