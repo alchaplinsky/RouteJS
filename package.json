@@ -1,0 +1,20 @@
+{
+  "name": "router",
+  "version": "0.1.0",
+  "description": "Javascript router for non-spa applications",
+  "author": "Alex Chaplinsky",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "coffee-script": "1.7.1",
+    "gulp": "^3.8.1",
+    "gulp-coffee": "^2.0.1",
+    "gulp-jasmine": "^0.2.0",
+    "gulp-util": "^2.2.1",
+    "gulp-watch": "^0.6.8"
+  }
+}
