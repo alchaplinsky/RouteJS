@@ -1,6 +1,6 @@
-## Router.js
+## RouteJS
 
-Router.js is a lightweight JavaScript library - router for non-SPA applications.
+RouteJS is a lightweight JavaScript library - router for non-SPA applications.
 
 While working on rich client side (not a Single Page Application) web application, it is sometimes necessary to run different
 bits of javascript code (like instantiating object, passing params to it and call some method)
