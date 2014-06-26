@@ -44,6 +44,23 @@ handlers =
 router = new RouteJS(handlers)
 router.map (match, done)->
   match('/page/:slug').to('findPage')
-  match('/country/:country_id/city/:id').to(findCity)
+  match('/country/:country_id/city/:id').to('findCity')
   done()
+```
+
+## ALL routes before and after callbacks
+
+There may be situations when you want to run some javascript on each page, before or after route is triggered. You can simply do it like this:
+
+```
+  router = new RouteJS()
+  router.before ->
+    # Run before all routes
+
+  router.after ->
+    # Run after all routes
+
+  router.map (match, done) ->
+    ..........
+    done()
 ```
