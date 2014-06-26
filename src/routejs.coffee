@@ -36,10 +36,16 @@ class root.Route
       params[segment.slice(1)] = segments[i] if segment.match(/^:.+/)
     params
 
-class root.Router
+class root.RouteJS
 
   constructor: (@handlers) ->
     @routes = []
+
+  before: (callback) ->
+    @beforeCallback = callback
+
+  after: (callback) ->
+    @afterCallback = callback
 
   map: (callback) ->
     callback.call @, @match, @route
@@ -55,4 +61,10 @@ class root.Router
 
   route: =>
     for route in @routes
-      return route.callback(route.params(@location())) if route.matches(@location())
+      if route.matches(@location())
+        params = route.params(@location())
+        @beforeCallback?(params)
+        route.callback(params)
+        return @afterCallback?(params)
+    @beforeCallback?()
+    @afterCallback?()

@@ -22,7 +22,7 @@ That's why using JavaScript router similar will help to define what should be ru
 
 Defining handler callbacks inline while define routes.
 ```
-router = new Router()
+router = new RouteJS()
 router.map (match, done)->
   match('/page/:slug').to (params) ->
     # Do whatever you need on this page. params.slug is available
@@ -36,12 +36,12 @@ router.map (match, done)->
 Pre-defined object with handler callbacks, to simplify routes description.
 ```
 handlers =
-  findPage: ->
+  findPage: (params) ->
     ....
-  findCity: ->
+  findCity: (params) ->
     ....
 
-router = new Router(handlers)
+router = new RouteJS(handlers)
 router.map (match, done)->
   match('/page/:slug').to('findPage')
   match('/country/:country_id/city/:id').to(findCity)

@@ -61,19 +61,27 @@ root.Route = (function() {
 
 })();
 
-root.Router = (function() {
-  function Router(handlers) {
+root.RouteJS = (function() {
+  function RouteJS(handlers) {
     this.handlers = handlers;
     this.route = __bind(this.route, this);
     this.match = __bind(this.match, this);
     this.routes = [];
   }
 
-  Router.prototype.map = function(callback) {
+  RouteJS.prototype.before = function(callback) {
+    return this.beforeCallback = callback;
+  };
+
+  RouteJS.prototype.after = function(callback) {
+    return this.afterCallback = callback;
+  };
+
+  RouteJS.prototype.map = function(callback) {
     return callback.call(this, this.match, this.route);
   };
 
-  Router.prototype.match = function(path, callback) {
+  RouteJS.prototype.match = function(path, callback) {
     var route;
     if (callback == null) {
       callback = null;
@@ -86,21 +94,30 @@ root.Router = (function() {
     return route;
   };
 
-  Router.prototype.location = function() {
+  RouteJS.prototype.location = function() {
     return window.location.pathname;
   };
 
-  Router.prototype.route = function() {
-    var route, _i, _len, _ref;
+  RouteJS.prototype.route = function() {
+    var params, route, _i, _len, _ref;
     _ref = this.routes;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       route = _ref[_i];
       if (route.matches(this.location())) {
-        return route.callback(route.params(this.location()));
+        params = route.params(this.location());
+        if (typeof this.beforeCallback === "function") {
+          this.beforeCallback(params);
+        }
+        route.callback(params);
+        return typeof this.afterCallback === "function" ? this.afterCallback(params) : void 0;
       }
     }
+    if (typeof this.beforeCallback === "function") {
+      this.beforeCallback();
+    }
+    return typeof this.afterCallback === "function" ? this.afterCallback() : void 0;
   };
 
-  return Router;
+  return RouteJS;
 
 })();

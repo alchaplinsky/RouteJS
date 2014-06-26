@@ -1,4 +1,4 @@
-subject = require '../src/router'
+subject = require '../src/routejs'
 
 handlers =
   exampleHandler: ->

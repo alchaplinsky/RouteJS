@@ -1,0 +1,14 @@
+{
+  "name": "RouteJS",
+  "version": "0.2.0",
+  "authors": ["Alex Chaplinsky <alchapone@yandex.ru>"],
+  "main": "./dist/routejs.js",
+  "homepage": "https://github.com/alchapone/RouteJS",
+  "keywords": [
+    "javascript",
+    "router"
+  ],
+  "license": "MIT",
+  "dependencies": {
+  }
+}
